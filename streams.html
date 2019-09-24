@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
-<!-- html5up.net | @ajlkn -->
+<!--
+	HTML5 UP | html5up.net | @ajlkn
+-->
 <html>
 	<head>
 		<title>Radio Streams Guide by GabeValentine</title>
@@ -39,7 +41,9 @@
 									<header class="main">
 										<h1>Radio Streams Guide for ATS and ETS2</h1>
 									</header>
+									
 									<span class="image main"><img src="images/st.jpg" alt="" /></span>
+									
 									<h2>Introduction</h2>
 										<p>This is a guide for American Truck Simulator (ATS) and European Truck Simulator 2 (ETS2) that will teach you how to find and use radio stream URLs to program custom radio stations, allowing you to listen to your favorite local stations in-game. It also provides an introduction to local transcoding (how to use codecs that the game does not support, how to listen to local files with the in-game radio), how to merge the default radio stations from one game with the other, and how to automate local transcoding using commands.</p>
 										<p>Nearly every radio station has an online stream and these streaming URLs can be imported to the game by editing the <strong>live_streams.sii</strong> file located in either <i>~\Users\YOU\Documents\Euro Truck Simulator 2</i> or <i>~\Documents\American Truck Simulator</i> depending on which game you're using. Here is a brief description of some of the file types you may encounter.</p>
@@ -49,8 +53,7 @@
 											<li><strong>M3U</strong> and <strong>M3U8</strong> is a multimedia playlist format that is used in HLS and forms the basis of Dynamic Adaptive Streaming over HTTP (DASH). They can have one or multiple entries and each entry points to a stream. The file is written in plain text and can be opened with any text editor. The '8' in M3U8 denotes that the file is encoded in UTF-8. Files encoded in UTF-8 may also include directives and comments prefaced by a hash/pound (#), such as track information.</li>
 											<li><strong>PLS</strong> is a multimedia playlist format commonly used on SHOUTcast and Icecast servers. These files are also written in plain text and will typically point to a single source file. Like M3U8 files, PLS files can also store track information such as title or lenghth.</li>
 										</ul>
-										<p>The only thing you will need to find radio streams is a web browser with developer console. I prefer the console in Chrome over Firefox, especially the network monitor. To open the developer console, press F12. For active transcoding you will need a media player that supports it. I recommend VLC because it is a free, powerful, and user-friendly media player that has support for almost every audio and video codec. You can <a href="https://www.videolan.org/vlc/">download VLC at their website</a>. VLC is also a great program to test streams before you try importing them to the game. Every link in your <strong>live_streams.sii</strong> should be formatted like this:</p>
-										<pre><code>stream_data[Number]: "URL|Name|Genre|Language|Bitrate|Favorite"</code></pre>
+										<p>The only thing you will need to find radio streams is a web browser with developer console. I prefer the console in Chrome over Firefox, especially the network monitor. To open the developer console, press F12. For active transcoding you will need a media player that supports it. I recommend VLC because it is a free, powerful, and user-friendly media player that has support for almost every audio and video codec. You can <a href="https://www.videolan.org/vlc/">download VLC at their website</a>. VLC is also a great program to test streams before you try importing them to the game. Every link in your <strong>live_streams.sii</strong> should be formatted like this:<code>stream_data[Number]: "URL|Name|Genre|Language|Bitrate|Favorite"</code></p>
 										<ul>
 											<li>Number: Unique stream ID number, used by the game to organize the list.</li>
 											<li>URL: Direct link to the source.</li>
@@ -60,21 +63,19 @@
 											<li>Bitrate: This is not autodetected. You can set it to any number or leave it blank. You can check the bitrate of a stream in VLC.</li>
 											<li>Favorite: Boolean, 0 for no or 1 for yes.</li>
 										</ul>
+										
 									<hr class="major" />
 									<h2>Finding and Importing URLs</h2>
-										<p>The example station I will use is <a href="http://fmaspen.com">FM Aspen 102.3 Buenos Aires</a>. Navigate to the media player of the site and press F12 to open the developer console (ctrl+shift+J is another hotkey) and select the "Network" tab. Press play on the site and you should see the media URLs in the network traffic console. As soon as the stream audio begins (after any ads) you can stop the stream. Doing so reveals that the media source for player.fmaspen.com is an unobscured AAC file hosted at this URL:</p>
-										<pre><code>http://18183.live.streamtheworld.com/ASPENAAC.aac</code></pre>
+										<p>The example station I will use is <a href="http://fmaspen.com">FM Aspen 102.3 Buenos Aires</a>. Navigate to the media player of the site and press F12 to open the developer console (ctrl+shift+J is another hotkey) and select the "Network" tab. Press play on the site and you should see the media URLs in the network traffic console. As soon as the stream audio begins (after any ads) you can stop the stream. Doing so reveals that the media source for player.fmaspen.com is an unobscured AAC file hosted at this URL: <code>http://18183.live.streamtheworld.com/ASPENAAC.aac</code></p>
 										<p>Since this stream uses AAC/MP4A encoding, it will not work with the game. This is a very common scenario and is <i>always</i> the case with iHeart radio stations. A workaround is to use active transcoding in VLC to convert the stream to MP3 from another codec. This will be covered later in the guide; for now let us see if we can find another site that rebroadcasts this station. Search the internet for "aspen 102.3 stream". Check a few of the top results for working streams, and keep network monitor open so you can check the codec. If TuneIn rebroadcasts your station that is great because they almost always use MP3. For this station, there are a couple sites that rebroadcast and use MP3!</p>
 										<ul>
 										<li><a href="http://streema.com">Streema.com</a> - located at http://20283.live.streamtheworld.com/ASPEN.mp3</li>
 										<li><a href="">Radio.net</a> - located at http://20833.live.streamtheworld.com/ASPEN.mp3</li>
 										</ul>
-										<p>The quality on both seems to be about the same, which is lower than the official stream because they have a lower sample rate. HLS and DASH streams usually are higher quality than basic internet radio streams. This may be the quality that Aspen provides to these sites or they may be transcoding the file at a lower quality. Copy the URL and format your <i>stream_data</i> entry following the format example, and add the entry to the <strong>live_streams.sii</strong> file. This is what the entry should look like, replacing the ??? with the next number in your current file.</p>
-										<pre><code>stream_data[???]: "http://20283.live.streamtheworld.com/ASPEN.mp3|FM Aspen 102.3 Buenos Aires|80s|ES|64|0"</code></pre>
+										<p>The quality on both seems to be about the same, which is lower than the official stream because they have a lower sample rate. HLS and DASH streams usually are higher quality than basic internet radio streams. This may be the quality that Aspen provides to these sites or they may be transcoding the file at a lower quality. Copy the URL and format your <i>stream_data</i> entry following the format example, and add the entry to the <strong>live_streams.sii</strong> file. This is what the entry should look like, replacing the ??? with the next number in your current file.<code>stream_data[???]: "http://20283.live.streamtheworld.com/ASPEN.mp3|FM Aspen 102.3 Buenos Aires|80s|ES|64|0"</code></p>
 									<hr class="major" />
 									<h2>Active Transcoding - Using Other File Types (MP4A, AAC, M3U8, Local Media)</h2>
-										<p>If you add a stream to <strong>live_streams.sii</strong> that is the incorrect format, it simply won't work in-game. There is no error message or indication that the stream isn't dead, you just have to know. There is a workaround that allows you to convert an MP4A stream to MP3 for use in-game that I learned about from <a href="http://kevo.io">Kevin O'Connor</a>. The example stream I will use is <a href="https://kiisfm.iheart.com/">102.7 KIIS FM Los Angeles</a> which is an iHeart radio station. Source URL:</p>
-										<pre><code>http://c2icyelb.prod.playlists.ihrhls.com/185_icy</code></pre>
+										<p>If you add a stream to <strong>live_streams.sii</strong> that is the incorrect format, it simply won't work in-game. There is no error message or indication that the stream isn't dead, you just have to know. There is a workaround that allows you to convert an MP4A stream to MP3 for use in-game that I learned about from <a href="http://kevo.io">Kevin O'Connor</a>. The example stream I will use is <a href="https://kiisfm.iheart.com/">102.7 KIIS FM Los Angeles</a> which is an iHeart radio station. Source URL: <code>http://c2icyelb.prod.playlists.ihrhls.com/185_icy</code></p>
 										<ol>
 										<li>Test the stream. Open VLC, press ctrl+N, paste the stream URL, and play.</li>
 										<li>We will locally transcode this stream. Press ctrl+S.</li>
@@ -85,8 +86,8 @@
 										Click stream.</li>
 										<li>(first time only) Your firewall might prompt you then to allow VLC. If it doesn't, verify that VLC has been allowed through your firewall.</li>
 										</ol>
-										<p>VLC will begin playing but you will not hear any audio through your speakers/headset. Instead, the local MP3 stream can now be accessed at <strong>http://localhost:8080</strong>. That is what you add to <strong>live_streams.sii</strong>, replacing the ??? with the next number in your current file. You can verify audio is playing by opening a second instance of VLC, press ctrl+N, and enter the MP3 stream URL. You will hear the audio that is being transcoded by the first instance of VLC. Once you've added the entry, you are ready to open the game and play the station. You'll need to leave VLC open while you play.</p>
-										<pre><code>stream_data[???]: "http://localhost:8080|102.7 KIIS FM Los Angeles|Pop|EN|128|0"</code></pre>
+										<p>VLC will begin playing but you will not hear any audio through your speakers/headset. Instead, the local MP3 stream can now be accessed at <strong>http://localhost:8080</strong>. That is what you add to <strong>live_streams.sii</strong>, replacing the ??? with the next number in your current file. <code>stream_data[???]: "http://localhost:8080|102.7 KIIS FM Los Angeles|Pop|EN|128|0"</code> You can verify audio is playing by opening a second instance of VLC, press ctrl+N, and enter the MP3 stream URL. You will hear the audio that is being transcoded by the first instance of VLC. Once you've added the entry, you are ready to open the game and play the station. You'll need to leave VLC open while you play.</p>
+										
 									<hr class="major" />
 									<h2>Working with M3U and M3U8 Files (iHeart) | Updated 10 Sep 2019</h2>
 										<p>iHeart obfuscates their streams, making it somewhat more difficult to obtain a file for local transcoding. This section will cover where to find this file and some of its key components. The stream will be organized and split into chunks contained in M3U8 files. For this example I will be using WDXB 102.5 FM of Birmingham. <a href="https://www.iheart.com/live/1025-the-bull-3089/">This is the iHeart website to listen to the station</a>.</p>
@@ -97,9 +98,7 @@
 #EXT-X-STREAM-INF:BANDWIDTH=49000,CODECS="mp4a.40.5"
 https://c4.prod.playlists.ihrhls.com:443/3089/playlist.m3u8?listeningSessionID=BigStringHere</code></pre>
 										<span class="image fit"><img src="images/streams2.png" alt="" /></span>
-										<p>This file points to "c4.prod.playlists" and the URL includes a port (443) in addition to the station identifier (3089). We can tell that this is an mp4a stream from the track information directive where it says codecs="mp4a.40.5". This is the file we can use for local transcoding. Copy everything up to the question mark (example below) and follow the instructions in the section above (Using MP4A files in-game). Now that we understand the naming structure, it becomes easy to grab new links for transcoding. The station identifier is listed all over the place, including the URL of the station. The port is always 443 for iHeart. So all you need to format your own link is to press play on the station and identify which iHeart server the station lives on (c1, c2, c3, c4).</p>
-										<pre><code>https://c4.prod.playlists.ihrhls.com:443/3089/playlist.m3u8
-https://<SERVER>.prod.playlists.ihrhls.com:443/<STATION_ID>/playlist.m3u8</pre></code>
+										<p>This file points to "c4.prod.playlists" and the URL includes a port (443) in addition to the station identifier (3089). We can tell that this is an mp4a stream from the track information directive where it says codecs="mp4a.40.5". This is the file we can use for local transcoding. <code>https://c4.prod.playlists.ihrhls.com:443/3089/playlist.m3u8</code> Copy everything up to the question mark and follow the instructions in the section above (Using MP4A files in-game). Now that we understand the naming structure, it becomes easy to grab new links for transcoding. The station identifier is listed all over the place, including the URL of the station. The port is always 443 for iHeart. So all you need to format your own link is to press play on the station and identify which iHeart server the station lives on (c1, c2, c3, c4). <code>https://[SERVER].prod.playlists.ihrhls.com:443/[STATION_ID]/playlist.m3u8</code></p>
 										<p>You can combine all the default stations into one live_streams.sii file and use it in both games. You will need to own and install both games.</p>
 										<ol>
 										<li>Run each game and select radio. Press "update from internet."</li>
@@ -109,23 +108,18 @@ https://<SERVER>.prod.playlists.ihrhls.com:443/<STATION_ID>/playlist.m3u8</pre><
 										<li>Paste above "stream_data[0]" then head to the end of the list. Rename everything in sequential order. If the last number you pasted was 235, the "stream_data[0]" below it will become 236. Do this for all 38 default ATS stations then save the file.</li>
 										<li>Copy the <strong>live_streams.sii</strong> file from your <i>~\Documents\American Truck Simulator</i> directory into your <i>~\Documents\Euro Truck Simulator 2</i> directory and replace when prompted.</li>
 										</ol>
+										
 									<hr class="major" />
 									<h2>(Advanced Users) Using CLI to Start Transcoding</h2>
-										<p>This is only for users who are comfortable using Command Prompt or other command line interface. This section will allow you to start streams using a single command. For this tutorial I will be using <a href="https://www.ala810.com/">WCKA AM 810 / 94.3 FM Alabama</a>. The streaming source for this station is below. This is INPUT.</p>
-										<pre><code>https://ice64.securenetsystems.net/WCKA</pre></code>
-										<p>First, open the command line. You can do this by pressing windows+R and typing "cmd" or a shortcut can be found in the Start Menu under "Windows System" folder. Navigate to your VLC installation folder. The default path is below.</p>
-										<pre><code>cd C:\Program Files\VideoLAN\VLC</pre></code>
-										<p>Next, open VLC by typing "vlc". Follow the instructions under "Using MP4A / AAC files in-game" <strong>up to step 6</strong>. The last screen of the Stream Output Wizard provides a <i>generated stream output string</i> which you will copy. The output string for WCKA is below. Unfortunately, in the current release of VLC, this string is not expressed in the way Command Prompt is expecting so we will need to fix it before it can be used. Paste the string into your preferred text editor for a moment and close VLC.</p>
-										<pre><code>:sout=#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}:http{mux=mp3,dst=:8080/} :no-sout-all :sout-keep</pre></code>
-										<p>Below is the desired formatting. VLC's documentation is not user friendly, very complete, or up-to-date. However, more information on using VLC with the CLI <a href="https://wiki.videolan.org/Documentation:Streaming_HowTo_New/">can be found here</a> and command line examples <a href="https://wiki.videolan.org/Documentation:Streaming_HowTo/Command_Line_Examples/">can be found here</a>.
-										<pre><code>vlc "INPUT" --sout "#transcode{STREAM SETTINGS}:http{mux=CODEC,dst=:OUTPUTPORT}" :no-sout-all :sout-keep</pre></code>
-										<p>Below is the completed command to transcode WCKA to mp3 and output to localhost port 8080. Compare this to the generated output string. Copy your formatted command and paste to Command Prompt (make sure you are in VLC's installation directory). When you run the command, VLC should open and begin streaming. Open a new VLC window and test your stream. Any errors will be displayed under "messages" (ctrl+M) or in a pop-up error window. If you receive an error that VLC media player could not start because "either the command line options were invalid or no plugins were found" this means you have an error in your command expression.</p>
-										<pre><code>vlc "https://ice64.securenetsystems.net/WCKA" --sout "#transcode{acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}:http{mux=mp3,dst=:8080}" :no-sout-all :sout-keep</pre></code>
+										<p>This is only for users who are comfortable using Command Prompt or other command line interface. This section will allow you to start streams using a single command. For this tutorial I will be using <a href="https://www.ala810.com/">WCKA AM 810 / 94.3 FM Alabama</a>. This is INPUT, the streaming source for this station: <code>https://ice64.securenetsystems.net/WCKA</code></p>
+										<p>First, open the command line. You can do this by pressing windows+R and typing "cmd" or a shortcut can be found in the Start Menu under "Windows System" folder. Navigate to your VLC installation folder. Here is the default path <code>cd C:\Program Files\VideoLAN\VLC</code>.</p>
+										<p>Next, open VLC by typing "vlc". Follow the instructions under "Using MP4A / AAC files in-game" <strong>up to step 6</strong>. The last screen of the Stream Output Wizard provides a <i>generated stream output string</i> which you will copy. The output string for WCKA is below. Unfortunately, in the current release of VLC, this string is not expressed in the way Command Prompt is expecting so we will need to fix it before it can be used. Paste the string into your preferred text editor for a moment and close VLC. <code>:sout=#transcode{vcodec=none,acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}:http{mux=mp3,dst=:8080/} :no-sout-all :sout-keep</code></p>
+										<p>Below is the desired formatting. VLC's documentation is not user friendly, very complete, or up-to-date. However, more information on using VLC with the CLI <a href="https://wiki.videolan.org/Documentation:Streaming_HowTo_New/">can be found here</a> and command line examples <a href="https://wiki.videolan.org/Documentation:Streaming_HowTo/Command_Line_Examples/">can be found here</a>. <code>vlc "INPUT" --sout "#transcode{STREAM SETTINGS}:http{mux=CODEC,dst=:OUTPUT PORT}" :no-sout-all :sout-keep</code></p>
+										<p>Below is the completed command to transcode WCKA to mp3 and output to localhost port 8080. Compare this to the generated output string. Copy your formatted command and paste to Command Prompt (make sure you are in VLC's installation directory). When you run the command, VLC should open and begin streaming. Open a new VLC window and test your stream. Any errors will be displayed under "messages" (ctrl+M) or in a pop-up error window. If you receive an error that VLC media player could not start because "either the command line options were invalid or no plugins were found" this means you have an error in your command expression. <code>vlc "https://ice64.securenetsystems.net/WCKA" --sout "#transcode{acodec=mp3,ab=128,channels=2,samplerate=44100,scodec=none}:http{mux=mp3,dst=:8080}" :no-sout-all :sout-keep</code></p>
 								</section>
-
 						</div>
 					</div>
-		</div>
+			
 				<!-- Sidebar -->
 					<div id="sidebar">
 						<div class="inner">
@@ -133,7 +127,7 @@ https://<SERVER>.prod.playlists.ihrhls.com:443/<STATION_ID>/playlist.m3u8</pre><
 							<!-- Search -->
 								<section id="search" class="alt">
 									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
+										<input type="text" name="query" id="query" placeholder="This doesn't work yet" />
 									</form>
 								</section>
 
@@ -146,13 +140,15 @@ https://<SERVER>.prod.playlists.ihrhls.com:443/<STATION_ID>/playlist.m3u8</pre><
 										<li><a href="http://gabevalentine.tk">Homepage</a></li>
 										<li><a href="http://ramen-mc.tk">Minecraft Server</a></li>
 										<li><a href="http://anemonebot.tk">Discord Bot</a></li>
-										<li><span class="opener">Video Game Mods & Resources</span>
-										<ul>
+										<li>
+											<span class="opener">Video Game Mods & Resources</span>
+											<ul>
 											<li><a href="streams.html">ATS and ETS2 | Radio Streams Guide</a></li>
-										</ul></li>
+											</ul>
+										</li>
 									</ul>
 								</nav>
-								
+
 							<!-- Section -->
 								<section>
 									<header class="major">
