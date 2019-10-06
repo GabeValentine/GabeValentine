@@ -264,7 +264,7 @@ table {
 
 th, td {
   font-weight: unset;
-  padding-right: 10px;
+  padding-right: 0px;
 }
 
 .columnA {
@@ -369,7 +369,6 @@ th, td {
   font-size: 12px;
   color: #404040;
   line-height: 1.4;
-  background-color: #dddddd;
 }
 
 .table100.ver1 td {
