@@ -1,2 +1,2 @@
 # GabeValentine
- GabeValentine
+This is a hub for my projects. Since you're reading this I assume you're more interested in the code. Any code I've used from others is free under BY-SA license, so feel free to use it for any purpose but leave any credits (if you're concerned, links to authors are easy to find on my site). You don't need to add any attribution for me. Any content (anything that is not code) on here is free under BY-NC-SA license unless otherwise noted. If you want to use any content for commercial purpose please contact me (again, easy to find). Please do not use or re-host my content without attribution. Alright, thanks for reading.
